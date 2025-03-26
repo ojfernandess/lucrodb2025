@@ -11,8 +11,9 @@ const port = process.env.PORT || 5000;
 // Middleware para lidar com JSON e habilitar CORS
 app.use(express.json());
 app.use(cors({
-  origin: '*', // Em produção, você deve especificar os domínios permitidos
-  methods: ['GET', 'POST']
+  origin: ['https://lucrodb-production.up.railway.app', 'http://localhost:5000'],
+  methods: ['GET', 'POST'],
+  credentials: true
 }));
 
 // Conectar ao MongoDB
@@ -81,10 +82,10 @@ app.get('/api/getProfit', async (req, res) => {
 
 // Rota padrão para testar o backend
 app.get('/', (req, res) => {
-  res.send('API LucroDB está rodando!');
+  res.send('API LucroDB está rodando no Railway!');
 });
 
 // Inicia o servidor
 app.listen(port, '0.0.0.0', () => {
-  console.log(`Servidor rodando na porta ${port}`);
+  console.log(`Servidor rodando na porta ${port} no Railway`);
 });

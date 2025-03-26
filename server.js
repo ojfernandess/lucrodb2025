@@ -8,12 +8,28 @@ require('dotenv').config(); // Carrega as variáveis do arquivo .env
 const app = express();
 const port = process.env.PORT || 5000;
 
+// Lista de domínios permitidos
+const allowedOrigins = [
+  'https://lucrodb-production.up.railway.app',
+  'https://lucrodb-1-pee1.onrender.com',
+  'http://localhost:5000'
+];
+
 // Middleware para lidar com JSON e habilitar CORS
 app.use(express.json());
 app.use(cors({
-  origin: ['https://lucrodb-production.up.railway.app', 'http://localhost:5000'],
+  origin: function(origin, callback) {
+    // Permite requisições sem origin (como apps mobile)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) === -1) {
+      return callback(null, true); // Temporariamente permitindo todas as origens
+    }
+    return callback(null, true);
+  },
   methods: ['GET', 'POST'],
-  credentials: true
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 // Conectar ao MongoDB
@@ -82,10 +98,10 @@ app.get('/api/getProfit', async (req, res) => {
 
 // Rota padrão para testar o backend
 app.get('/', (req, res) => {
-  res.send('API LucroDB está rodando no Railway!');
+  res.send('API LucroDB está rodando!');
 });
 
 // Inicia o servidor
 app.listen(port, '0.0.0.0', () => {
-  console.log(`Servidor rodando na porta ${port} no Railway`);
+  console.log(`Servidor rodando na porta ${port}`);
 });

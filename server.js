@@ -10,7 +10,7 @@ const port = process.env.PORT || 5000;
 
 // Lista de domínios permitidos
 const allowedOrigins = [
-  'https://lucrodb-production.up.railway.app',
+  'https://lucrodb-production-8437.up.railway.app',
   'https://lucrodb2025.onrender.com',
   'http://localhost:5000'
 ];
